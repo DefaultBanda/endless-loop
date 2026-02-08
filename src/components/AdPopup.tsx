@@ -63,7 +63,7 @@ const AdPopup = () => {
       ]);
 
       // 2–5 seconds (adjust if you want even faster)
-      timeoutRef.current = window.setTimeout(spawnPopup, 2000 + Math.random() * 3000);
+      timeoutRef.current = window.setTimeout(spawnPopup, 800 + Math.random() * 700);
     };
 
     timeoutRef.current = window.setTimeout(spawnPopup, 1000);
