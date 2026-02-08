@@ -9,8 +9,8 @@ const Header = () => {
             <Play className="w-5 h-5 text-primary-foreground fill-current" />
           </div>
           <h1 className="text-xl font-bold tracking-tight">
-            <span className="text-gradient">Stream</span>
-            <span className="text-foreground">Box</span>
+            <span className="text-gradient">Thorin</span>
+            <span className="text-foreground">Hub</span>
           </h1>
         </div>
         <p className="text-muted-foreground text-sm hidden sm:block">Now Playing</p>

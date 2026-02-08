@@ -1,7 +1,6 @@
 import { useRef, useState } from "react";
 import { Play, Pause, Volume2, VolumeX, Maximize } from "lucide-react";
-
-const VIDEO_URL = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
+import videoSrc from "@/assets/video.mp4";
 
 const VideoPlayer = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -44,11 +43,16 @@ const VideoPlayer = () => {
 
   return (
     <div className="space-y-4">
+      {/* Are u HH banner */}
+      <div className="text-center py-3">
+        <span className="text-2xl font-bold text-gradient tracking-wide">Are u HH</span>
+      </div>
+
       {/* Video container */}
       <div className="relative rounded-xl overflow-hidden glow-border group bg-card">
         <video
           ref={videoRef}
-          src={VIDEO_URL}
+          src={videoSrc}
           autoPlay
           loop
           playsInline
@@ -60,7 +64,6 @@ const VideoPlayer = () => {
 
         {/* Overlay controls */}
         <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
-          {/* Progress bar */}
           <div
             className="w-full h-1.5 bg-muted rounded-full cursor-pointer mb-4 group/bar hover:h-2.5 transition-all"
             onClick={handleSeek}
@@ -73,7 +76,6 @@ const VideoPlayer = () => {
             </div>
           </div>
 
-          {/* Button row */}
           <div className="flex items-center gap-3">
             <button
               onClick={togglePlay}
@@ -96,14 +98,6 @@ const VideoPlayer = () => {
             </button>
           </div>
         </div>
-      </div>
-
-      {/* Video info */}
-      <div className="bg-card rounded-xl p-5 border border-border">
-        <h2 className="text-lg font-semibold text-foreground mb-1">Big Buck Bunny</h2>
-        <p className="text-muted-foreground text-sm">
-          A short animated film — playing on loop.
-        </p>
       </div>
     </div>
   );
