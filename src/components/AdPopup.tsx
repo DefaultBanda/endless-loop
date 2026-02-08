@@ -3,11 +3,11 @@ import { X } from "lucide-react";
 import adImage from "@/assets/ADK.png";
 
 const AD_MESSAGES = [
-  "🔥 Hot deals in your area!",
-  "⚡ You won't believe this offer!",
-  "💰 Claim your reward NOW!",
-  "🎉 Congratulations! You've been selected!",
-  "🚀 Limited time offer!",
+  "🔥 Hot singles in your area!",
+  "⚡ Daniel Wants to fckkk!",
+  "💰 Claim your boyfriend NOW!",
+  "🎉 Congratulations! You've been selected to be on the bangbus!",
+  "🚀 Free Viagra!",
 ];
 
 const getRandomPosition = () => ({
