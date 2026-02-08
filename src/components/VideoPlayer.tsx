@@ -45,7 +45,7 @@ const VideoPlayer = () => {
     <div className="space-y-4">
       {/* Are u HH banner */}
       <div className="text-center py-3">
-        <span className="text-2xl font-bold text-gradient tracking-wide">Are u HoRnI Babe</span>
+        <span className="text-2xl font-bold text-gradient tracking-wide">Are u HoRnY Babe</span>
       </div>
 
       {/* Video container */}
