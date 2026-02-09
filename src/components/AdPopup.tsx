@@ -6,7 +6,7 @@ import dan from "@/assets/Dan.png";
 import aya from "@/assets/Aya.png";
 
 const AD_MESSAGES = [
-  "🔥 Hot singles in your area!",
+  "🔥 Hot singles in your area! CALGARY",
   "⚡ Daniel Wants to fckkk!",
   "💰 Claim your boyfriend NOW!",
   "🎉 Congratulations! You've been selected to be on the bangbus!",
