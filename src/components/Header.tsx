@@ -1,20 +1,47 @@
-import { Play } from "lucide-react";
+import { Search } from "lucide-react";
 
 const Header = () => {
   return (
-    <header className="border-b border-border bg-card/80 backdrop-blur-md sticky top-0 z-50">
-      <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center">
-            <Play className="w-5 h-5 text-primary-foreground fill-current" />
-          </div>
-          <h1 className="text-xl font-bold tracking-tight">
-            <span className="text-gradient">Thorin</span>
-            <span className="text-foreground">Hub</span>
-          </h1>
+    <header className="sticky top-0 z-50 bg-background">
+      {/* Top bar */}
+      <div className="flex items-center justify-between px-4 py-3">
+        <div className="flex items-center gap-1">
+          <span className="text-2xl font-bold text-foreground">Thorin</span>
+          <span className="text-2xl font-bold bg-primary text-primary-foreground px-1.5 rounded">Hub</span>
         </div>
-        <p className="text-muted-foreground text-sm hidden sm:block">Now Playing</p>
+
+        <div className="hidden sm:flex items-center bg-secondary rounded overflow-hidden">
+          <input
+            type="text"
+            placeholder="Search ThorinHub"
+            className="bg-transparent text-foreground text-sm px-3 py-1.5 w-64 outline-none placeholder:text-muted-foreground"
+          />
+          <button className="bg-muted px-3 py-1.5 text-muted-foreground hover:text-foreground transition-colors">
+            <Search className="w-4 h-4" />
+          </button>
+        </div>
+
+        <div className="flex items-center gap-4 text-sm text-muted-foreground">
+          <button className="hover:text-foreground transition-colors">Login</button>
+          <button className="hover:text-foreground transition-colors">Sign Up</button>
+        </div>
       </div>
+
+      {/* Nav tabs */}
+      <nav className="flex border-t-2 border-primary">
+        {["HOME", "VIDEOS", "THORINSTARS", "COMMUNITY"].map((tab, i) => (
+          <button
+            key={tab}
+            className={`flex-1 py-2.5 text-sm font-bold tracking-wider text-center transition-colors ${
+              i === 0
+                ? "text-foreground border-b-2 border-primary"
+                : "text-muted-foreground hover:text-foreground border-b-2 border-transparent"
+            }`}
+          >
+            {tab}
+          </button>
+        ))}
+      </nav>
     </header>
   );
 };
