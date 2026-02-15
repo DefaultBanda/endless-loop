@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { X, Bell } from "lucide-react";
+import { X } from "lucide-react";
 
 import adk from "@/assets/ADK.png";
 import dan from "@/assets/Dan.png";
@@ -7,21 +7,10 @@ import aya from "@/assets/Aya.png";
 
 const AD_MESSAGES = [
   "🔥 Hot singles in your area! CALGARY",
-  "⚡ Daniel wants to hang out!",
+  "⚡ Daniel Wants to fckkk!",
   "💰 Claim your boyfriend NOW!",
-  "🎉 You've been selected for the bangbus!",
+  "🎉 Congratulations! You've been selected to be on the bangbus!",
   "🚀 Free Viagra!",
-];
-
-const NOTIFICATION_MESSAGES = [
-  "Dan just uploaded a new video 🎬",
-  "Ayan is live right now! 🔴",
-  "Thorin commented on your post 💬",
-  "New ThorinStar trending: Dan 📈",
-  "Ayan liked your comment ❤️",
-  "Dan started following you 👀",
-  "Thorin uploaded: 'Oakenshield Unboxing' 🪓",
-  "Ayan posted in Community 💬",
 ];
 
 const AD_IMAGES = [
@@ -30,71 +19,55 @@ const AD_IMAGES = [
   { src: aya, label: "Aya" },
 ];
 
-const getRandomItem = <T,>(arr: T[]) => arr[Math.floor(Math.random() * arr.length)];
-
 const getRandomPosition = () => ({
   top: Math.random() * 50 + 10,
   left: Math.random() * 40 + 10,
 });
 
+const getRandomItem = <T,>(arr: T[]) => arr[Math.floor(Math.random() * arr.length)];
+
 const AdPopup = () => {
   const [popups, setPopups] = useState<
     { id: number; message: string; top: number; left: number; imageSrc: string; imageLabel: string }[]
   >([]);
-  const [notifications, setNotifications] = useState<
-    { id: number; message: string }[]
-  >([]);
 
   const timeoutRef = useRef<number | null>(null);
   const lastImageLabelRef = useRef<string | null>(null);
-  const isNotificationTurn = useRef(false);
 
   useEffect(() => {
-    const spawn = () => {
-      if (isNotificationTurn.current) {
-        // Spawn a notification toast (top-right)
-        const msg = getRandomItem(NOTIFICATION_MESSAGES);
-        setNotifications((prev) => [
-          ...prev.slice(-2),
-          { id: Date.now(), message: msg },
-        ]);
+    // DEBUG: if these 3 URLs print the same (or 2 match), your imports are not distinct
+    console.log("Image URLs:", { adk, dan, aya });
 
-        // Auto-dismiss after 4s
-        const id = Date.now();
-        setTimeout(() => {
-          setNotifications((prev) => prev.filter((n) => n.id !== id));
-        }, 4000);
-      } else {
-        // Spawn a popup ad
-        const pos = getRandomPosition();
-        const msg = getRandomItem(AD_MESSAGES);
+    const spawnPopup = () => {
+      const pos = getRandomPosition();
+      const msg = getRandomItem(AD_MESSAGES);
 
-        let picked = getRandomItem(AD_IMAGES);
-        if (AD_IMAGES.length > 1) {
-          while (picked.label === lastImageLabelRef.current) {
-            picked = getRandomItem(AD_IMAGES);
-          }
+      // pick an image, but avoid repeating the same label back-to-back
+      let picked = getRandomItem(AD_IMAGES);
+      if (AD_IMAGES.length > 1) {
+        while (picked.label === lastImageLabelRef.current) {
+          picked = getRandomItem(AD_IMAGES);
         }
-        lastImageLabelRef.current = picked.label;
-
-        setPopups((prev) => [
-          ...prev.slice(-1), // max 2 popups at once
-          {
-            id: Date.now(),
-            message: msg,
-            imageSrc: picked.src,
-            imageLabel: picked.label,
-            ...pos,
-          },
-        ]);
       }
+      lastImageLabelRef.current = picked.label;
 
-      isNotificationTurn.current = !isNotificationTurn.current;
-      // Slower: 4-8 seconds between spawns
-      timeoutRef.current = window.setTimeout(spawn, 4000 + Math.random() * 4000);
+      setPopups((prev) => [
+        ...prev.slice(-4),
+        {
+          id: Date.now(),
+          message: msg,
+          imageSrc: picked.src,
+          imageLabel: picked.label,
+          ...pos,
+        },
+      ]);
+
+      // 2–5 seconds (adjust if you want even faster)
+      timeoutRef.current = window.setTimeout(spawnPopup, 900 + Math.random() * 700);
     };
 
-    timeoutRef.current = window.setTimeout(spawn, 3000);
+    timeoutRef.current = window.setTimeout(spawnPopup, 1000);
+
     return () => {
       if (timeoutRef.current) window.clearTimeout(timeoutRef.current);
     };
@@ -104,13 +77,8 @@ const AdPopup = () => {
     setPopups((prev) => prev.filter((p) => p.id !== id));
   };
 
-  const closeNotification = (id: number) => {
-    setNotifications((prev) => prev.filter((n) => n.id !== id));
-  };
-
   return (
     <>
-      {/* Popup ads */}
       {popups.map((popup) => (
         <div
           key={popup.id}
@@ -118,8 +86,8 @@ const AdPopup = () => {
           style={{
             top: `${popup.top}%`,
             left: `${popup.left}%`,
-            maxWidth: 300,
-            minWidth: 240,
+            maxWidth: 320,
+            minWidth: 260,
           }}
         >
           <div className="flex items-center justify-between bg-primary px-3 py-1.5">
@@ -131,34 +99,18 @@ const AdPopup = () => {
               <X className="w-4 h-4" />
             </button>
           </div>
+
           <div className="p-3">
             <img src={popup.imageSrc} alt="Ad" className="w-full rounded-lg mb-2" />
+            <p className="text-[10px] opacity-70 mb-1">Image: {popup.imageLabel}</p>
             <p className="text-sm font-medium text-foreground">{popup.message}</p>
+
             <button className="mt-2 w-full py-1.5 rounded-lg bg-primary text-primary-foreground text-xs font-bold hover:opacity-90 transition-opacity">
               Click Here!
             </button>
           </div>
         </div>
       ))}
-
-      {/* Notification toasts — top right */}
-      <div className="fixed top-16 right-4 z-[101] flex flex-col gap-2 w-72">
-        {notifications.map((notif) => (
-          <div
-            key={notif.id}
-            className="bg-card border border-border rounded-lg shadow-lg p-3 flex items-start gap-3 animate-in slide-in-from-right duration-300"
-          >
-            <Bell className="w-4 h-4 text-primary mt-0.5 shrink-0" />
-            <p className="text-sm text-foreground flex-1">{notif.message}</p>
-            <button
-              onClick={() => closeNotification(notif.id)}
-              className="text-muted-foreground hover:text-foreground transition-colors shrink-0"
-            >
-              <X className="w-3.5 h-3.5" />
-            </button>
-          </div>
-        ))}
-      </div>
     </>
   );
 };

@@ -1,22 +1,11 @@
 import { Search } from "lucide-react";
-import { useNavigate, useLocation } from "react-router-dom";
-
-const TABS = [
-  { label: "HOME", path: "/" },
-  { label: "VIDEOS", path: "/videos" },
-  { label: "THORINSTARS", path: "/thorinstars" },
-  { label: "COMMUNITY", path: "/community" },
-];
 
 const Header = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-
   return (
     <header className="sticky top-0 z-50 bg-background">
       {/* Top bar */}
       <div className="flex items-center justify-between px-4 py-3">
-        <div className="flex items-center gap-1 cursor-pointer" onClick={() => navigate("/")}>
+        <div className="flex items-center gap-1">
           <span className="text-2xl font-bold text-foreground">Thorin</span>
           <span className="text-2xl font-bold bg-primary text-primary-foreground px-1.5 rounded">Hub</span>
         </div>
@@ -40,17 +29,16 @@ const Header = () => {
 
       {/* Nav tabs */}
       <nav className="flex border-t-2 border-primary">
-        {TABS.map((tab) => (
+        {["HOME", "VIDEOS", "THORINSTARS", "COMMUNITY"].map((tab, i) => (
           <button
-            key={tab.path}
-            onClick={() => navigate(tab.path)}
+            key={tab}
             className={`flex-1 py-2.5 text-sm font-bold tracking-wider text-center transition-colors ${
-              location.pathname === tab.path
+              i === 0
                 ? "text-foreground border-b-2 border-primary"
                 : "text-muted-foreground hover:text-foreground border-b-2 border-transparent"
             }`}
           >
-            {tab.label}
+            {tab}
           </button>
         ))}
       </nav>
